@@ -48,6 +48,7 @@ endif
 "set hidden		" Hide buffers when they are abandoned
 "set mouse=a		" Enable mouse usage (all modes)
 
+"echo "(>^.^<)"
 
 "-----------------------------------------------"
 "               基础设置                        "
@@ -65,6 +66,7 @@ Plug 'sillybun/vim-autodoc'
 Plug 'dense-analysis/ale'                   "语法检查
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'preservim/nerdcommenter'              "num/cc num/cu num/ci
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 
@@ -72,6 +74,7 @@ call plug#end()
 "               自定义功能                      "
 "-----------------------------------------------"
 colorscheme dracula
+"hi Normal ctermfg=252 ctermbg=none
 hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
 
 " nerdcommenter----------------------
@@ -171,6 +174,29 @@ set nobackup
 set undodir=~/.vim/.undo// 
 
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" <<<<< Quickly Run
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+map <F5> :call CompileRunGcc()<CR>
+
+func! CompileRunGcc()
+    exec "w" 
+    if &filetype == 'c' 
+        exec '!g++ % -o %<'
+        exec '!time ./%<'
+    elseif &filetype == 'cpp'
+        exec '!g++ % -o %<'
+        exec '!time ./%<'
+    elseif &filetype == 'python'
+        exec '!time python %'
+    elseif &filetype == 'sh'
+        :!time bash %
+    endif                                                                              
+endfunc 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Quickly Run >>>>>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 " Source a global configuration file if available
