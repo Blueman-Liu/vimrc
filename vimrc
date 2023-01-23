@@ -68,6 +68,9 @@ Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'preservim/nerdcommenter'              "num/cc num/cu num/ci
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets'
+Plug 'jiangmiao/auto-pairs'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 
@@ -77,6 +80,26 @@ call plug#end()
 colorscheme dracula
 "hi Normal ctermfg=252 ctermbg=none
 hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
+
+" auto pair--------------------
+au Filetype FILETYPE let b:AutoPairs = {"(": ")"}
+au FileType php      let b:AutoPairs = AutoPairsDefine({'<?' : '?>', '<?php': '?>'})
+
+" airline ----------------------
+set laststatus=2  "永远显示状态栏
+let g:airline_powerline_fonts = 1  " 支持 powerline 字体
+let g:airline_extensions_tabline_enabled = 1  "显示窗口tab和buffer
+let g:airline_theme='molokai'  " murmur配色不错
+
+if !exists('g:airline_symbols')
+let g:airline_symbols = {}
+endif
+let g:airline_left_sep = '▶'
+let g:airline_left_alt_sep = '❯'
+let g:airline_right_sep = '◀'
+let g:airline_right_alt_sep = '❮'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
 
 " nerdcommenter----------------------
 " Create default mappings
