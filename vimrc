@@ -53,24 +53,31 @@ endif
 "-----------------------------------------------"
 "               基础设置                        "
 "-----------------------------------------------"
+"Plugin 'https://hub.fastgit.org/作者/插件仓库名.git
 call plug#begin('~/.vim/plugged')
-Plug 'dracula/vim',{'as':'dracula'}
-Plug 'mbbill/undotree'
-Plug 'preservim/nerdtree'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }   "<leader>f
-Plug 'sillybun/vim-autodoc'
+Plug 'https://hub.fastgit.org/dracula/vim',{'as':'dracula'}
+Plug 'https://hub.fastgit.org/mbbill/undotree'
+Plug 'https://hub.fastgit.org/preservim/nerdtree'
+Plug 'https://hub.fastgit.org/Yggdroot/LeaderF', { 'do': './install.sh' }   "<leader>f
+Plug 'https://hub.fastgit.org/sillybun/vim-autodoc'
 " 给所有函数加上docstring
 ":RecordParameter
 " 给当前光标下的函数加上docstring
 ":RecordCurrentFunction
-Plug 'dense-analysis/ale'                   "语法检查
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-Plug 'preservim/nerdcommenter'              "num/cc num/cu num/ci
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'honza/vim-snippets'
-Plug 'jiangmiao/auto-pairs'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'https://hub.fastgit.org/dense-analysis/ale'                   "语法检查
+Plug 'https://hub.fastgit.org/python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'https://hub.fastgit.org/preservim/nerdcommenter'              "num/cc num/cu num/ci
+Plug 'https://hub.fastgit.org/neoclide/coc.nvim', {'branch': 'release'}
+Plug 'https://hub.fastgit.org/honza/vim-snippets'
+Plug 'https://hub.fastgit.org/jiangmiao/auto-pairs'
+Plug 'https://hub.fastgit.org/vim-airline/vim-airline'
+Plug 'https://hub.fastgit.org/vim-airline/vim-airline-themes'
+Plug 'https://hub.fastgit.org/rust-lang/rust.vim'
+Plug 'https://hub.fastgit.org/majutsushi/tagbar'
+Plug 'https://hub.fastgit.org/godlygeek/tabular' "必要插件，安装在vim-markdown前面
+Plug 'https://hub.fastgit.org/plasticboy/vim-markdown'
+Plug 'https://hub.fastgit.org/iamcco/mathjax-support-for-mkdp'
+Plug 'https://hub.fastgit.org/iamcco/markdown-preview.vim'
 call plug#end()
 
 
@@ -85,21 +92,58 @@ hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
 au Filetype FILETYPE let b:AutoPairs = {"(": ")"}
 au FileType php      let b:AutoPairs = AutoPairsDefine({'<?' : '?>', '<?php': '?>'})
 
-" airline ----------------------
+" markdown---------------------
+let g:vim_markdown_math = 1
+nmap <silent> <F8> <Plug>MarkdownPreview
+let g:mkdp_path_to_chrome = "/opt/google/chrome"
+imap <silent> <F8> <Plug>MarkdownPreview
+nmap <silent> <F9> <Plug>StopMarkdownPreview
+imap <silent> <F9> <Plug>StopMarkdownPreview
+
+"airline ----------------------
 set laststatus=2  "永远显示状态栏
 let g:airline_powerline_fonts = 1  " 支持 powerline 字体
 let g:airline_extensions_tabline_enabled = 1  "显示窗口tab和buffer
 let g:airline_theme='molokai'  " murmur配色不错
 
-if !exists('g:airline_symbols')
-let g:airline_symbols = {}
-endif
-let g:airline_left_sep = '▶'
-let g:airline_left_alt_sep = '❯'
-let g:airline_right_sep = '◀'
-let g:airline_right_alt_sep = '❮'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
+"不显示文档总字数
+let g:airline#extensions#wordcount#enabled = 0
+"不显示文件编码（Windows系统）
+let g:airline#parts#ffenc#skip_expected_string='utf-8[dos]'
+"设置tagber对于markdown的支持
+let g:tagbar_type_markdown = {
+    \ 'ctagstype' : 'markdown',
+    \ 'kinds' : [
+        \ 'h:Chapter',
+        \ 'i:Section',
+        \ 'k:Paragraph',
+        \ 'j:Subparagraph'
+    \ ]
+\ }
+"取消显示warning部分
+let g:airline_section_warning = ''
+"取消显示section_b
+let g:airline_section_b = ''
+"section_c显示为tagbar检索出来的标题
+let g:airline_section_c = airline#section#create(['tagbar'])
+"section_x显示文件名
+let g:airline_section_x = '%{expand("%")}'
+"section_y显示时间
+let g:airline_section_y = airline#section#create(['%{strftime("%D")}'])
+"section_z显示日期
+let g:airline_section_z = airline#section#create(['%{strftime("%H:%M")}'])
+"激活tagbar扩展
+let g:airline#extensions#tagbar#enabled = 1
+
+"if !exists('g:airline_symbols')
+"let g:airline_symbols = {}
+"endif
+"let g:airline_left_sep = '▶'
+"let g:airline_left_alt_sep = '❯'
+"let g:airline_right_sep = '◀'
+"let g:airline_right_alt_sep = '❮'
+"let g:airline_symbols.linenr = '¶'
+"let g:airline_symbols.branch = '⎇'
 
 " nerdcommenter----------------------
 " Create default mappings
@@ -130,6 +174,9 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 " 快捷键绑定-------------------------
+map RR :!cargo run<CR>
+map rr :RustRun<CR>
+
 map ff :NERDTreeToggle<CR>
 map <F5> :UndotreeToggle<CR>
 "map rc : e $HOME\_vimrc<CR>        "windows
