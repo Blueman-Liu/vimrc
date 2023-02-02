@@ -357,7 +357,7 @@ set termguicolors               "24bit colors
 set ic
 set fileencodings=utf-8,ucs-bom,GB2312,big5
 set number
-set relativenumber
+"set relativenumber
 set backspace=indent,eol,start
 set encoding=utf-8
 syntax on
